@@ -1,0 +1,50 @@
+﻿@page
+@using MyApp.Namespace
+@model SentimentAnalysisModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Sentiment Analysis</h1>
+            <p class="text-center">This example uses the
+                <a href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview
+                    target=" _blank"> Azure AI Language service</a> which is part of Azure AI Services.
+            </p>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="TextToAnalyse">Text to Analyse</label>
+                    <textarea asp-for="TextToAnalyse" class="form-control" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Analyse</button>
+            </form>
+
+            <hr />
+
+            <div class="mt-4">
+                <h1 class="display-4 text-center">Analysis Results</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sentiment</th>
+                            <th scope="col">Positive Score</th>
+                            <th scope="col">Neutral Score</th>
+                            <th scope="col">Negative Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.DocumentSentiment?.Sentiment</td>
+                            <td>@Model.DocumentSentiment?.ConfidenceScores.Positive</td>
+                            <td>@Model.DocumentSentiment?.ConfidenceScores.Neutral</td>
+                            <td>@Model.DocumentSentiment?.ConfidenceScores.Negative</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

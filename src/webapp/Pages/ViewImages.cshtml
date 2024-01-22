@@ -1,0 +1,41 @@
+﻿@page
+@using MyApp.Namespace
+@model ViewImagesModel
+@{
+    ViewData["Title"] = "View Images";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Uploaded Images</h1>
+
+            @foreach (var image in Model.Images)
+            {
+                <div class="card mb-4">
+                    <img src="@image.Url" class="card-img-top" alt="Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Image Metadata</h5>
+                        <p class="card-text">
+                            URL: @image.Url
+                            <button class="btn btn-secondary btn-sm ml-2"
+                                onclick="copyToClipboard('@image.Url')">Copy</button>
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function () {
+                console.log('Copying to clipboard was successful!');
+            }, function (err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+}

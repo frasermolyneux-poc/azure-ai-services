@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "connectionInfo": "App registration: Azure AI Services Web App - scratch, Tenant: Molyneux.IO (molyneux.io - Microsoft Entra ID)",
+      "type": "identityapp.default"
+    }
+  }
+}

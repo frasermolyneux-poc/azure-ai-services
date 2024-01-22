@@ -1,0 +1,159 @@
+﻿@page
+@using MyApp.Namespace
+@model ImageAnalysisModel
+@{
+    ViewData["Title"] = "Image Analysis";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Image Analysis</h1>
+            <p class="text-center">This example uses the
+                <a href="https://learn.microsoft.com/en-gb/azure/ai-services/computer-vision/overview-image-analysis?tabs=4-0"
+                    target="_blank"> computer vision services</a> which is part of Azure AI Services.
+            </p>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="ImageUrl">Image URL</label>
+                    <input asp-for="ImageUrl" type="text" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Analyze</button>
+            </form>
+
+
+            @if (Model.AnalysisResult == null)
+            {
+
+            }
+            else if (Model.AnalysisResult.Reason == Azure.AI.Vision.ImageAnalysis.ImageAnalysisResultReason.Error)
+            {
+                var errorDetails = Azure.AI.Vision.ImageAnalysis.ImageAnalysisErrorDetails.FromResult(Model.AnalysisResult);
+
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error</h4>
+                    <p>Reason: @errorDetails.Reason</p>
+                    <p>Error Code: @errorDetails.ErrorCode</p>
+                    <p>Message: @errorDetails.Message</p>
+                </div>
+            }
+            else if (Model.AnalysisResult != null && !string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <div class="mt-4">
+                    <img src="@Model.ImageUrl" class="img-fluid" alt="Image">
+
+                    @if (Model.AnalysisResult.Caption != null)
+                    {
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h2>Caption</h2>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @Model.AnalysisResult.Caption.Content, Confidence @Model.AnalysisResult.Caption.Confidence
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.AnalysisResult.Objects != null)
+                    {
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h2>Objects</h2>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var detectedObject in Model.AnalysisResult.Objects)
+                                {
+                                    <p class="card-text">
+                                        @detectedObject.Name, Bounding box @detectedObject.BoundingBox, Confidence
+                                        @detectedObject.Confidence
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.AnalysisResult.Tags != null)
+                    {
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h2>Tags</h2>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var tag in Model.AnalysisResult.Tags)
+                                {
+                                    <p class="card-text">
+                                        @tag.Name, Confidence @tag.Confidence
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.AnalysisResult.People != null)
+                    {
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h2>People</h2>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var person in Model.AnalysisResult.People)
+                                {
+                                    <p class="card-text">
+                                        Bounding box @person.BoundingBox, Confidence @person.Confidence
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.AnalysisResult.CropSuggestions != null)
+                    {
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h2>Crop Suggestions</h2>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var cropSuggestion in Model.AnalysisResult.CropSuggestions)
+                                {
+                                    <p class="card-text">
+                                        Aspect ratio @cropSuggestion.AspectRatio:, Crop suggestion @cropSuggestion.BoundingBox
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.AnalysisResult.Text != null)
+                    {
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h2>Text</h2>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var line in Model.AnalysisResult.Text.Lines)
+                                {
+                                    string pointsToString = "{" + string.Join(',', line.BoundingPolygon.Select(pointsToString =>
+                                    pointsToString.ToString())) + "}";
+
+                                    <p class="card-text">Line: '@line.Content', Bounding polygon @pointsToString</p>
+
+                                    foreach (var word in line.Words)
+                                    {
+                                        pointsToString = "{" + string.Join(',', word.BoundingPolygon.Select(pointsToString =>
+                                        pointsToString.ToString())) + "}";
+
+                                        <p class="card-text">Word: '@word.Content', Bounding polygon @pointsToString, Confidence
+                                            @word.Confidence</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

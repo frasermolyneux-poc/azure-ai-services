@@ -1,0 +1,55 @@
+﻿@page
+@using MyApp.Namespace
+@model TextTranslateModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Text Translator</h1>
+            <p class="text-center">This example uses the
+                <a href="https://learn.microsoft.com/en-gb/azure/ai-services/translator/text-translation-overview"
+                    target="_blank"> text translation services</a> which is part of Azure AI Services.
+            </p>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="TextToTranslate">Text to Translate</label>
+                    <textarea asp-for="TextToTranslate" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="TargetLanguage">Target Language</label>
+                    <select asp-for="TargetLanguage" asp-items="@(new SelectList(Model.TargetLanguageOptions))"
+                        class="form-control"></select>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Translate</button>
+            </form>
+
+            <hr />
+
+            <div class="mt-4">
+                <h1 class="display-4 text-center">Translated Text</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Detected Language</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Translated To</th>
+                            <th scope="col">Translated Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.TranslatedText?.DetectedLanguage?.Language</td>
+                            <td>@Model.TranslatedText?.DetectedLanguage?.Score</td>
+                            <td>@Model.TranslatedText?.Translations?.FirstOrDefault().To</td>
+                            <td>@Model.TranslatedText?.Translations?.FirstOrDefault()?.Text</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

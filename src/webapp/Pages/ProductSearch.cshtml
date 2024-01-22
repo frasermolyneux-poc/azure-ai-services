@@ -1,0 +1,98 @@
+﻿@page
+@using MyApp.Namespace
+@model ProductSearchModel
+@{
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Product Search</h1>
+            <p class="text-center">This example uses the
+                <a href="https://learn.microsoft.com/en-us/azure/search/" target=" _blank"> Azure AI Search Service</a>
+                which is part of Azure AI Services.
+            </p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="mt-4">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h2>Index Details</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">Search Index: @Model.IndexName</p>
+                    <p class="text-center">Document Count: @Model.DocumentCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="mt-4">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h2>Generate Catalog</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="GenerateCatalog">
+                        <input type="submit" value="Generate Catalog" class="btn btn-primary" />
+                    </form>
+                    <form method="post" asp-page-handler="DeleteCatalog">
+                        <input type="submit" value="Delete Catalog" class="btn btn-danger mt-2" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="mt-4">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h2>Product Search</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="Search">
+                        <input type="text" name="SearchKeywords" placeholder="Enter search keywords" />
+                        <input type="submit" value="Search" class="btn btn-primary" />
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.SearchResults != null)
+        {
+            <div class="row justify-content-center">
+                <div class="mt-4">
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h2>Search Results</h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var result in Model.SearchResults.GetResults())
+                                    {
+                                        <tr>
+                                            <td>@result.Document.Name</td>
+                                            <td>@result.Document.Price</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

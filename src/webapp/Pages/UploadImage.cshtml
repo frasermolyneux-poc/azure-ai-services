@@ -1,0 +1,22 @@
+﻿@page
+@using MyApp.Namespace
+@model UploadImageModel
+@{
+    ViewData["Title"] = "Upload Image";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Upload Image</h1>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="ImageFile">Image File</label>
+                    <input asp-for="ImageFile" type="file" class="form-control-file" />
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Upload</button>
+            </form>
+        </div>
+    </div>
+</div>
