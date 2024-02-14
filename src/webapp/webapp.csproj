@@ -11,7 +11,7 @@
     <PackageReference Include="Azure.AI.Translation.Text" Version="1.0.0-beta.1" />
     <PackageReference Include="Azure.AI.Vision.ImageAnalysis" Version="0.15.1-beta.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.1" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.2" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.Identity.Web" Version="2.17.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.17.0" />
     <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="2.16.1" />
